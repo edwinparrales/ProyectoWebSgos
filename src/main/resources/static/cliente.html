@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Sitema-Clientes</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  <link href="vendors/DataTables-1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+  <link href="vendors/Buttons-2.4.2/css/buttons.bootstrap5.min.css" rel="stylesheet">
+
+
+
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header class="encabezado" id="encabezado">
+  <h1>Logo</h1>
+  <h2>Clientes del sistema</h2>
+  <h2 id="fecha-hora"></h2>
+</header>
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="index.html">Sistema-Inventarios</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Clientes</a>
+        </li >
+
+
+        <li class="nav-item">
+          <a class="nav-link" href="#">Productos</a>
+        </li >
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Dropdown
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
+
+      </ul>
+      <ul class="navbar-nav">
+
+        <li class="nav-item"><a class="nav-link" href="">Login</a></li>
+        <li class="nav-item"><a class="nav-link" href="">Configuracion</a></li>
+
+      </ul>
+
+    </div>
+  </div>
+</nav>
+<div class="container-fluid">
+<div class="row" >
+  <div class="col-md-4 col-lg-3">
+    <h3>Formulario de Clientes</h3>
+    <form id="frm-cliente" autocomplete="off">
+         <div class="form-group">
+           <label for="tipo-documento">Tipo Documemto</label>
+           <select name="tipo-documento" id="tipo-documento" class="form-control">
+             <option value="CEDULA">Cedula de ciudadania colombiana</option>
+             <option value="TI">Tarjeta de identidad</option>
+             <option value="CE">Cedula de extranjeria</option>
+             <option value="NIT">Nit</option>
+           </select>
+         </div>
+        <div class="form-group">
+         <label for="documento">Documento:</label>
+         <input class="form-control" type="text" name="documento" id="documento">
+       </div>
+       <div class="form-group">
+         <label for="nombres">Nombres:</label>
+         <input class="form-control" type="text" name="nombres" id="nombres">
+       </div>
+
+
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" class="form-control" id="email" name="email">
+      </div>
+
+      <div class="form-group">
+        <label for="num-celular">Numero Celular:</label>
+        <input class="form-control" type="text" name="num-celular" id="num-celular">
+      </div>
+
+      <div class="form-group">
+        <label for="ciudad">Ciudad:</label>
+        <select name="ciudad" id="ciudad" class="form-control">
+          <option value="CALI">Cali</option>
+          <option value="JAMUNDI">Jamundi</option>
+          <option value="PALMIRA">Palmira</option>
+          <option value="YUMBO">Yumbo</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="direccion">Direccion:</label>
+        <input class="form-control" type="text" name="direccion" id="direccion">
+      </div>
+
+
+      <div class="form-group">
+        <label for="barrio">Barrio:</label>
+        <input class="form-control" type="text" name="barrio" id="barrio">
+      </div>
+
+      <div class="form-group">
+        <label for="observaciones">Observaciones:</label>
+        <textarea class="form-control" name="observaciones" id="observaciones" rows="3" cols="50"></textarea>
+
+      </div>
+
+
+      <div class="form-group mt-2">
+        <button type="submit" class="btn btn-primary" id="btn-guardar-cliente">Guardar</button>
+<!--        <button type="submit" class="btn btn-info disabled" id="btn-modificar-cliente">Modificar</button>-->
+      </div>
+
+    </form>
+
+  </div>
+  <div class="col-md-8 col-lg-9">
+     <h3>Listado de clientes</h3>
+    <table id="tabla-clientes" class="table table-striped" style="width:100%">
+      <thead>
+      <tr>
+          <th>Codigo</th>
+          <th>Tipo Dni</th>
+          <th>Documento</th>
+          <th>Nombres</th>
+          <th>Email</th>
+          <th>Telefono</th>
+          <th>Ciudad</th>
+          <th>Direccion</th>
+          <th>Barrio</th>
+          <th>Obsercaciones</th>
+          <th>Operaciones</th>
+      </tr>
+      </thead>
+      <tbody id="contenido">
+      </tbody>
+    </table>
+
+  </div>
+</div>
+</div>
+
+<!-- Modal content-->
+<div class="modal fade" id="frmupdate" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+
+                <form id="frm-act-cliente" autocomplete="off">
+                    <div class="form-group">
+                        <label for="id-a">Codigo:</label>
+                        <input type="text" name="id-a" id="id-a" disabled="true">
+                    </div>
+                    <div class="form-group">
+                        <label for="tipo-documento">Tipo Documemto</label>
+                        <select name="tipo-documento" id="tipo-documento-a" class="form-control">
+                            <option value="CEDULA">Cedula de ciudadania colombiana</option>
+                            <option value="TI">Tarjeta de identidad</option>
+                            <option value="CE">Cedula de extranjeria</option>
+                            <option value="NIT">Nit</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="documento">Documento:</label>
+                        <input class="form-control" type="text" name="documento" id="documento-a">
+                    </div>
+                    <div class="form-group">
+                        <label for="nombres">Nombres:</label>
+                        <input class="form-control" type="text" name="nombres" id="nombres-a">
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" class="form-control" id="email-a" name="email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="num-celular">Numero Celular:</label>
+                        <input class="form-control" type="text" name="num-celular" id="num-celular-a">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ciudad-a">Ciudad:</label>
+                        <select name="ciudad-a" id="ciudad-a" class="form-control">
+                            <option value="CALI">Cali</option>
+                            <option value="JAMUNDI">Jamundi</option>
+                            <option value="PALMIRA">Palmira</option>
+                            <option value="YUMBO">Yumbo</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="direccion">Direccion:</label>
+                        <input class="form-control" type="text" name="direccion" id="direccion-a">
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="barrio">Barrio:</label>
+                        <input class="form-control" type="text" name="barrio" id="barrio-a">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="observaciones">Observaciones:</label>
+                        <textarea class="form-control" name="observaciones" id="observaciones-a" rows="3" cols="50"></textarea>
+
+                    </div>
+
+
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-close-modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btn-actualizar">Actualizar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
+<script src="vendors/DataTables-1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="vendors/DataTables-1.13.6/js/dataTables.bootstrap5.min.js"></script>
+<script src="vendors/Buttons-2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="vendors/Buttons-2.4.2/js/buttons.bootstrap5.min.js"></script>
+
+
+<script type="application/javascript">
+
+  $(document).ready(function () {
+     cargarTabla();
+     setInterval(mostrarHora,1000);
+
+  });
+
+
+
+  //Eliminar Registro
+
+  $("body").on("click", "#tabla-clientes #btnEliminar", function (e) {
+    e.preventDefault();
+   let id = $(this).parent().parent().children("td:eq(0)").text();
+    $.ajax({
+      url: "http://localhost:9090/api/cliente/eliminar/"+id,
+      method: 'DELETE',
+      success : function(json) {
+        cargarTabla();
+        alert("El cliente se elimino correctamente");
+        cargarTabla();
+      },
+      error : function(error) {
+        alert("Error al eliminar el registro")
+        console.log(error)
+      }
+
+    });
+
+  });
+
+  $("body").on("click", "#tabla-clientes #btnEditar", function (e) {
+    e.preventDefault();
+    //$("#btn-guardar-cliente").addClass("disabled");
+    const  id = $(this).parent().parent().children("td:eq(0)").text();
+
+    const tipo = $(this).parent().parent().children("td:eq(1)").text();
+    const ciudad = $(this).parent().parent().children("td:eq(6)").text();
+
+
+     $("#id-a").val(id);
+
+    $("#tipo-documento-a option[value="+ tipo +"]").attr("selected",true);
+
+
+
+    $("#documento-a").val($(this).parent().parent().children("td:eq(2)").text());
+    $("#nombres-a").val($(this).parent().parent().children("td:eq(3)").text());
+    $("#email-a").val($(this).parent().parent().children("td:eq(4)").text());
+
+    $("#num-celular-a").val($(this).parent().parent().children("td:eq(5)").text());
+
+    $("#ciudad-a option[value="+ ciudad +"]").attr("selected",true);
+
+
+
+    $("#direccion-a").val($(this).parent().parent().children("td:eq(7)").text());
+    $("#barrio-a").val($(this).parent().parent().children("td:eq(8)").text());
+    $("#observaciones-a").val($(this).parent().parent().children("td:eq(9)").text());
+
+
+
+  });
+
+
+
+
+
+  $("#btn-guardar-cliente").click(function (e) {
+    e.preventDefault();
+
+
+    let cliente = {
+            "id": 0,
+            "tipoDni": $("#tipo-documento").val(),
+            "dni": $("#documento").val(),
+            "nombre": $("#nombres").val(),
+            "email": $("#email").val(),
+            "numCelular": $("#num-celular").val(),
+            "ciudad": $("#ciudad").val(),
+            "direccion": $("#direccion").val(),
+            "barrio": $("#barrio").val(),
+            "observaciones": $("#observaciones").val()
+    }
+    //console.log(cliente);
+    $.ajax({
+      url: "http://localhost:9090/api/cliente/guardar",
+      data : JSON.stringify(cliente),
+      method: 'POST',
+      dataType : 'json',
+      contentType: "application/json; charset=utf-8",
+      success : function(json) {
+        alert("El cliente se registro correctamente")
+
+        limpiarFormulario();
+        cargarTabla();
+      },
+      error : function(error) {
+        console.log(error)
+      }
+    })
+
+  });
+
+
+
+  function cargarTabla(e) {
+
+    $("#tabla-clientes #contenido").html("");
+
+    $.ajax({
+      url: "http://localhost:9090/api/cliente/listar",
+      type: 'GET',
+      success: function(data) {
+
+        let clientes = {
+          "data": data
+        };
+
+         let fila = "";
+         clientes.data.forEach( cl =>{
+
+
+
+           fila += ` <tr>
+                          <td  class="table-primary"> ${cl.id} </td>
+                          <td> ${cl.tipoDni} </td>
+                          <td> ${cl.dni} </td>
+                          <td> ${cl.nombre} </td>
+                          <td> ${cl.email} </td>
+                          <td> ${cl.numCelular} </td>
+                          <td> ${cl.ciudad} </td>
+                          <td> ${cl.direccion} </td>
+                          <td> ${cl.barrio} </td>
+                          <td> ${cl.observaciones} </td>
+                          <td>
+                              <button type="submit" id="btnEditar" data-bs-toggle="modal" data-bs-target="#frmupdate">Editar</button>
+                              <button id="btnEliminar" type="submit" >Eliminar</button>
+
+                          </td>
+
+
+                        </tr>  `;
+
+
+         });
+
+        $("#tabla-clientes #contenido").append(fila);
+
+
+      }
+    })
+
+
+
+  }
+
+/**
+  function cargarTabla(){
+    $("#example").dataTable(
+            {
+
+
+              ajax: {
+
+                url: 'http://localhost:9090/api/cliente/listar',
+                dataSrc: function(json){
+                  return json;
+                }
+              },
+
+              columns :[
+                {data: 'id'},
+                {data: 'tipoDni'},
+                {data: 'dni'},
+                {data: 'nombre'},
+                {data: 'email'},
+                {data: 'numCelular'},
+                {data: 'ciudad'},
+                {data: 'direccion'},
+                {data: 'barrio'},
+                {data: 'observaciones'},
+                {defaultContent:'<button type="submit" id="btnEditar">Editar</button><button id="btnEliminar" type="submit" >Eliminar</button>' }
+              ],
+
+            }
+
+    );
+
+  }
+**/
+
+
+  function limpiarFormulario() {
+
+    $("#tipo-documento").val("");
+    $("#documento").val("");
+    $("#nombres").val("");
+    $("#email").val("");
+    $("#num-celular").val("");
+    $("#ciudad").val("");
+    $("#direccion").val("");
+    $("#barrio").val("");
+    $("#observaciones").val("");
+
+  }
+
+  function mostrarHora() {
+
+      const fechaLocal = new Date().toLocaleString("es-CO",{timeZone:"America/Bogota"});
+      $("#fecha-hora").html(`<h2 id="fechaHora"> Fecha : ${fechaLocal.toString()} </h2>`)
+  }
+
+
+      $("#btn-actualizar").on('click',function (e) {
+         e.preventDefault();
+
+          let cliente = {
+              "id": $("#id-a").val(),
+              "tipoDni": $("#tipo-documento-a").val(),
+              "dni": $("#documento-a").val(),
+              "nombre": $("#nombres-a").val(),
+              "email": $("#email-a").val(),
+              "numCelular": $("#num-celular-a").val(),
+              "ciudad": $("#ciudad-a").val(),
+              "direccion": $("#direccion-a").val(),
+              "barrio": $("#barrio-a").val(),
+              "observaciones": $("#observaciones-a").val()
+          }
+          $.ajax({
+              url: "http://localhost:9090/api/cliente/guardar",
+              data : JSON.stringify(cliente),
+              method: 'POST',
+              dataType : 'json',
+              contentType: "application/json; charset=utf-8",
+              success : function(json) {
+                  alert("El cliente se actualizo correctamente");
+
+
+                  limpiarFormulario();
+                  cargarTabla();
+              },
+              error : function(error) {
+                  console.log(error)
+              }
+          })
+      });
+/*  $("#btn-close-modal").on('click',function (e){
+      e.preventDefault();
+      cargarTabla();
+  })*/
+
+
+</script>
+</body>
+</html>
